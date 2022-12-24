@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobby</title>
+</head>
+<body>
+    <h1>Room: <span id="room_pk">{{room.pk}}</span></h1>
+
+    <div id="chat"></div>
+
+
+    <form  id="form" method="post" enctype="multipart/form-data">
+        {%csrf_token%}
+        <input type="text" name="room_name" placeholder="Group name">
+        <input type="text" name="message">
+        <input type="submit" value="Send">
+        <input type="file" name="file" id="file">
+        
+    </form>
+
+
+    <script type="text/javascript">
+        room_pk = document.getElementById("room_pk").innerText
+        // let url = 'ws://' + window.location.host + '/ws/' + n + "/"
+        let url = 'ws://' + window.location.host + '/ws/' + room_pk + '/'
+        chatSocket = new WebSocket(url)
+        
+        chatSocket.onmessage = function(e){
+            let data = JSON.parse(e.data)
+            console.log("Data:", data)
+            if (data.type === 'chat'){
+                let messages = document.getElementById('chat')
+                messages.insertAdjacentHTML("Beforeend", `<div>
+                                  <p>`+ data.message +`</p>
+                                  </div>`)
+            }
+        }
+        
+        let form = document.getElementById('form')
+        form.addEventListener('submit', (e)=>{
+            e.preventDefault()
+            let msg = e.target.message.value
+            var audio = document.getElementById('file').files[0]
+            alert(audio)
+            let formData = new FormData();
+            formData.append("message", msg)
+            formData.append("audio", audio)
+
+            
+            chatSocket.send(formData)
+            form.reset()
+        })
+    
+    </script>
+</body>
+</html>
