@@ -12,7 +12,7 @@
     <div id="chat"></div>
 
 
-    <form  id="form" method="post" enctype="multipart/form-data">
+    <form  action="{%url 'main:'%}" id="form" method="post" enctype="multipart/form-data">
         {%csrf_token%}
         <input type="text" name="room_name" placeholder="Group name">
         <input type="text" name="message">
@@ -50,7 +50,7 @@
 
             reader.onload = function(e) {
                 // binary data
-                console.log(e.target.result);
+                console.log(e.target.file);
             };
             reader.onerror = function(e) {
                 // error occurred

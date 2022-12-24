@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView
 
 from .models import Message, Room
 from .serializer import MessageSerializer, RoomSeriazier
@@ -30,6 +30,8 @@ def lobby(request,pk):
     room = Room.objects.get(id=pk)
     messages = Message.objects.filter(room=room)[0:25]
     form  = MessageForm()
+    if request.method == "post":
+        form = MessageForm(request.POST)
 
     return render(request, 'chat/lobby.html', {"room": room , 'message': messages, 'form': form})
 
@@ -40,7 +42,7 @@ class RoomApiView(ListAPIView):
     permission_class = [IsAuthenticated]
 
 
-class MessageApiView(ListAPIView):
+class MessageApiView(ListCreateAPIView):
     queryest = Message.objects.all()
     serializer_class = MessageSerializer
     permission_class = [IsAuthenticated]
@@ -51,3 +53,4 @@ class RoomDetailView(RetrieveAPIView):
     serializer_class = RoomSeriazier
     permission_classes = [IsAuthenticated]
     
+
