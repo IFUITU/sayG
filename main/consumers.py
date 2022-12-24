@@ -6,6 +6,8 @@ from channels.consumer import AsyncConsumer
 from channels.db import database_sync_to_async
 
 from .models import Message
+from .serializer import MessageSerializer
+
 
 class MessageConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -28,10 +30,11 @@ class MessageConsumer(AsyncWebsocketConsumer):
         )
     
     async def receive(self, text_data):
-        text_json = json.dumps(text_data)
-        print(text_data, "asdjhashdasjd")
+        # text_json = json.loads(text_data)
+        print(MessageSerializer(text_data).data, "asdjhashdasjd")
+
         # message = text_json['message']
-    
+
         # self.send(text_data=json.dumps({
         #     'type':"chat",
         #     "message":message,
