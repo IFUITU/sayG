@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import lobby, room, rooms, RoomApiView, MessageApiView, RoomDetailView
+from .views import lobby, room, rooms, RoomApiView, MessageApiView, RoomDetailView, MessageByRoom
 
 app_name="main"
 urlpatterns = [
@@ -9,4 +9,6 @@ urlpatterns = [
 
     path("room/<int:pk>/", RoomDetailView.as_view(), name="room-detail"),
     path("room/", RoomApiView.as_view(), name="room_list"),
+
+    path("messages-by-room/<int:room_id>/", MessageByRoom.as_view(), name="msg-by-room"),
 ]
