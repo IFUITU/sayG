@@ -11,4 +11,5 @@ urlpatterns = [
     path("room/", RoomApiView.as_view(), name="room_list"),
 
     path("messages-by-room/<int:room_id>/", MessageByRoom.as_view(), name="msg-by-room"),
+    path("message/", MessageApiView.as_view(), name="msg")
 ]

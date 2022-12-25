@@ -34,7 +34,7 @@ ALLOWED_HOSTS = ["*"]
 THIRD_PART_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
-    'channels',
+    # 'channels',
     'corsheaders',
 
 ] 

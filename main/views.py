@@ -43,9 +43,10 @@ class RoomApiView(ListAPIView):
 
 
 class MessageApiView(ListCreateAPIView):
-    queryest = Message.objects.all()
+    queryset = Message.objects.all()
     serializer_class = MessageSerializer
     permission_class = [IsAuthenticated]
+
 
 
 class RoomDetailView(RetrieveAPIView):
